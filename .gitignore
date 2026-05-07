@@ -30,7 +30,4 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 
-docker-compose.yml
-server/Dockerfile
 server/.env
-client/Dockerfile
