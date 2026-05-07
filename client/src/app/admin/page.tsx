@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/auth.store';
-import api from '@/lib/api';
+import { useAuthStore } from '@/src/store/auth.store';
+import api from '@/src/lib/api';
 import Link from 'next/link';
 
 const STATUS_STYLES: Record<string, string> = {

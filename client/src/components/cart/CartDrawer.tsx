@@ -75,7 +75,7 @@ export function CartDrawer() {
         </div>
 
         {/* Footer */}
-        {cart?.items.length > 0 && (
+        {cart?.items && cart.items.length > 0 && (
           <div className="px-6 py-5 border-t border-[#E8E6DF] space-y-4">
             <div className="flex justify-between text-sm">
               <span className="text-[#888780]">Subtotal</span>
