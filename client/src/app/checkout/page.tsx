@@ -14,11 +14,19 @@ export default function CheckoutPage() {
   const [success, setSuccess] = useState(false);
   const [promoCode, setPromoCode] = useState('');
   const [promoApplied, setPromoApplied] = useState(false);
-  const [form, setForm] = useState({ name: '', phone: '', address: '', city: '', province: '', postalCode: '' });
+  const [form, setForm] = useState({
+    name: '',
+    phone: '',
+    address: '',
+    city: '',
+    province: '',
+    postalCode: '',
+  });
 
   const f = (n: number) => `Rp ${n.toLocaleString('id-ID')}`;
   const subtotal = cart?.subtotal || 0;
-  const discount = promoApplied && promoCode === 'MODERNO10' ? subtotal * 0.1 : 0;
+  const discount =
+    promoApplied && promoCode === 'MODERNO10' ? subtotal * 0.1 : 0;
   const shipping = subtotal >= 500000 ? 0 : 25000;
   const total = subtotal - discount + shipping;
 
@@ -47,42 +55,97 @@ export default function CheckoutPage() {
     }
   };
 
-  if (success) return (
-    <div className="min-h-screen pt-16 flex items-center justify-center">
-      <div className="text-center max-w-sm px-6">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Check size={28} className="text-green-700" />
-        </div>
-        <h2 className="font-display text-3xl font-light text-[#1C1C1A] mb-3">Order Placed!</h2>
-        <p className="text-sm text-[#888780] mb-8">Thank you for your purchase. We'll send a confirmation email shortly.</p>
-        <div className="flex gap-3 justify-center">
-          <button onClick={() => router.push('/orders')} className="px-6 py-3 bg-[#1C1C1A] text-white rounded-full text-sm">View Orders</button>
-          <button onClick={() => router.push('/')} className="px-6 py-3 border border-[#E8E6DF] rounded-full text-sm text-[#888780]">Continue Shopping</button>
+  if (success)
+    return (
+      <div className="min-h-screen pt-16 flex items-center justify-center">
+        <div className="text-center max-w-sm px-6">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Check size={28} className="text-green-700" />
+          </div>
+          <h2 className="font-display text-3xl font-light text-[#1C1C1A] mb-3">
+            Order Placed!
+          </h2>
+          <p className="text-sm text-[#888780] mb-8">
+            Thank you for your purchase. We'll send a confirmation email
+            shortly.
+          </p>
+          <div className="flex gap-3 justify-center">
+            <button
+              onClick={() => router.push('/orders')}
+              className="px-6 py-3 bg-[#1C1C1A] text-white rounded-full text-sm"
+            >
+              View Orders
+            </button>
+            <button
+              onClick={() => router.push('/')}
+              className="px-6 py-3 border border-[#E8E6DF] rounded-full text-sm text-[#888780]"
+            >
+              Continue Shopping
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
 
   return (
     <div className="pt-24 pb-16 px-6 max-w-6xl mx-auto">
-      <h1 className="font-display text-4xl font-light text-[#1C1C1A] mb-8">Checkout</h1>
+      <h1 className="font-display text-4xl font-light text-[#1C1C1A] mb-8">
+        Checkout
+      </h1>
 
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8">
           {/* Shipping form */}
           <div className="bg-white border border-[#E8E6DF] rounded-2xl p-6">
-            <h2 className="font-medium text-[#1C1C1A] mb-6">Shipping Address</h2>
+            <h2 className="font-medium text-[#1C1C1A] mb-6">
+              Shipping Address
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
-                { name: 'name', label: 'Full Name', placeholder: 'Your name', col: 2 },
-                { name: 'phone', label: 'Phone Number', placeholder: '+62...', col: 2 },
-                { name: 'address', label: 'Street Address', placeholder: 'Jl. ...', col: 2 },
-                { name: 'city', label: 'City', placeholder: 'Surabaya', col: 1 },
-                { name: 'province', label: 'Province', placeholder: 'Jawa Timur', col: 1 },
-                { name: 'postalCode', label: 'Postal Code', placeholder: '60xxx', col: 1 },
+                {
+                  name: 'name',
+                  label: 'Full Name',
+                  placeholder: 'Your name',
+                  col: 2,
+                },
+                {
+                  name: 'phone',
+                  label: 'Phone Number',
+                  placeholder: '+62...',
+                  col: 2,
+                },
+                {
+                  name: 'address',
+                  label: 'Street Address',
+                  placeholder: 'Jl. ...',
+                  col: 2,
+                },
+                {
+                  name: 'city',
+                  label: 'City',
+                  placeholder: 'Surabaya',
+                  col: 1,
+                },
+                {
+                  name: 'province',
+                  label: 'Province',
+                  placeholder: 'Jawa Timur',
+                  col: 1,
+                },
+                {
+                  name: 'postalCode',
+                  label: 'Postal Code',
+                  placeholder: '60xxx',
+                  col: 1,
+                },
               ].map((field) => (
-                <div key={field.name} className={field.col === 2 ? 'md:col-span-2' : ''}>
-                  <label className="text-xs text-[#888780] block mb-1.5">{field.label}</label>
+                <div
+                  key={field.name}
+                  className={field.col === 2 ? 'md:col-span-2' : ''}
+                >
+                  <label className="text-xs text-[#888780] block mb-1.5">
+                    {field.label}
+                  </label>
                   <input
                     name={field.name}
                     value={form[field.name as keyof typeof form]}
@@ -107,10 +170,20 @@ export default function CheckoutPage() {
                       <ShoppingBag size={14} className="text-[#C4C2BA]" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-medium text-[#1C1C1A] leading-tight">{item.product.name}</p>
-                      <p className="text-xs text-[#888780]">{[item.size, item.color].filter(Boolean).join(' · ')} × {item.quantity}</p>
+                      <p className="text-xs font-medium text-[#1C1C1A] leading-tight">
+                        {item.product.name}
+                      </p>
+                      <p className="text-xs text-[#888780]">
+                        {[item.size, item.color].filter(Boolean).join(' · ')} ×{' '}
+                        {item.quantity}
+                      </p>
                     </div>
-                    <p className="text-xs font-medium">Rp {(item.product.price * item.quantity).toLocaleString('id-ID')}</p>
+                    <p className="text-xs font-medium">
+                      Rp{' '}
+                      {(item.product.price * item.quantity).toLocaleString(
+                        'id-ID'
+                      )}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -131,14 +204,32 @@ export default function CheckoutPage() {
                   Apply
                 </button>
               </div>
-              {promoApplied && <p className="text-xs text-green-700 mb-4">✓ Promo MODERNO10 applied!</p>}
+              {promoApplied && (
+                <p className="text-xs text-green-700 mb-4">
+                  ✓ Promo MODERNO10 applied!
+                </p>
+              )}
 
               {/* Totals */}
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between text-[#888780]"><span>Subtotal</span><span>{f(subtotal)}</span></div>
-                {discount > 0 && <div className="flex justify-between text-green-700"><span>Discount</span><span>-{f(discount)}</span></div>}
-                <div className="flex justify-between text-[#888780]"><span>Shipping</span><span>{shipping === 0 ? 'Free' : f(shipping)}</span></div>
-                <div className="flex justify-between font-medium text-[#1C1C1A] pt-2 border-t border-[#E8E6DF]"><span>Total</span><span>{f(total)}</span></div>
+                <div className="flex justify-between text-[#888780]">
+                  <span>Subtotal</span>
+                  <span>{f(subtotal)}</span>
+                </div>
+                {discount > 0 && (
+                  <div className="flex justify-between text-green-700">
+                    <span>Discount</span>
+                    <span>-{f(discount)}</span>
+                  </div>
+                )}
+                <div className="flex justify-between text-[#888780]">
+                  <span>Shipping</span>
+                  <span>{shipping === 0 ? 'Free' : f(shipping)}</span>
+                </div>
+                <div className="flex justify-between font-medium text-[#1C1C1A] pt-2 border-t border-[#E8E6DF]">
+                  <span>Total</span>
+                  <span>{f(total)}</span>
+                </div>
               </div>
             </div>
 

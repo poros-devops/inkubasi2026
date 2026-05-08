@@ -10,13 +10,7 @@ export class ProductsService {
     private productRepo: Repository<Product>,
   ) {}
 
-  async findAll(query: {
-    category?: ProductCategory;
-    search?: string;
-    page?: number;
-    limit?: number;
-    sort?: string;
-  }) {
+  async findAll(query: { category?: ProductCategory; search?: string; page?: number; limit?: number; sort?: string }) {
     const { category, search, page = 1, limit = 12, sort = 'createdAt' } = query;
     const options: FindManyOptions<Product> = {
       where: { isActive: true },
@@ -24,8 +18,8 @@ export class ProductsService {
       take: limit,
       order: { [sort]: 'DESC' },
     };
-    if (category) options.where = { ...options.where as object, category };
-    if (search) options.where = { ...options.where as object, name: Like(`%${search}%`) };
+    if (category) options.where = { ...(options.where as object), category };
+    if (search) options.where = { ...(options.where as object), name: Like(`%${search}%`) };
     const [items, total] = await this.productRepo.findAndCount(options);
     return { items, total, page, limit, totalPages: Math.ceil(total / limit) };
   }

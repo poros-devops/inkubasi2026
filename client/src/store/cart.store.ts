@@ -7,7 +7,12 @@ interface CartState {
   isOpen: boolean;
   isLoading: boolean;
   fetchCart: () => Promise<void>;
-  addItem: (productId: string, quantity: number, size?: string, color?: string) => Promise<void>;
+  addItem: (
+    productId: string,
+    quantity: number,
+    size?: string,
+    color?: string
+  ) => Promise<void>;
   updateItem: (itemId: string, quantity: number) => Promise<void>;
   removeItem: (itemId: string) => Promise<void>;
   toggleCart: () => void;

@@ -30,7 +30,8 @@ async function seed() {
       {
         name: 'Linen Blazer',
         brand: 'ESSENTIAL',
-        description: 'A timeless linen blazer crafted from premium European linen. Perfect for both formal and casual occasions, this versatile piece features a relaxed silhouette with structured shoulders.',
+        description:
+          'A timeless linen blazer crafted from premium European linen. Perfect for both formal and casual occasions, this versatile piece features a relaxed silhouette with structured shoulders.',
         price: 890000,
         originalPrice: null,
         category: ProductCategory.WOMEN,
@@ -43,7 +44,8 @@ async function seed() {
       {
         name: 'Silk Midi Dress',
         brand: 'MODERNO',
-        description: 'Luxurious silk midi dress with a fluid drape that moves beautifully. Features a subtle wrap silhouette with adjustable tie waist for a flattering fit.',
+        description:
+          'Luxurious silk midi dress with a fluid drape that moves beautifully. Features a subtle wrap silhouette with adjustable tie waist for a flattering fit.',
         price: 650000,
         originalPrice: 850000,
         category: ProductCategory.WOMEN,
@@ -56,7 +58,8 @@ async function seed() {
       {
         name: 'Classic Hoodie',
         brand: 'URBAN',
-        description: 'Heavyweight French terry hoodie with a relaxed fit. Features a kangaroo pocket and adjustable drawstring hood. Garment-dyed for a unique lived-in look.',
+        description:
+          'Heavyweight French terry hoodie with a relaxed fit. Features a kangaroo pocket and adjustable drawstring hood. Garment-dyed for a unique lived-in look.',
         price: 520000,
         originalPrice: null,
         category: ProductCategory.MEN,
@@ -69,7 +72,8 @@ async function seed() {
       {
         name: 'Cargo Pants',
         brand: 'ESSENTIAL',
-        description: 'Modern cargo pants in a relaxed tapered fit. Crafted from durable ripstop cotton with six functional pockets and an adjustable waistband.',
+        description:
+          'Modern cargo pants in a relaxed tapered fit. Crafted from durable ripstop cotton with six functional pockets and an adjustable waistband.',
         price: 475000,
         originalPrice: 600000,
         category: ProductCategory.MEN,
@@ -82,7 +86,8 @@ async function seed() {
       {
         name: 'Oversized Trench Coat',
         brand: 'MODERNO',
-        description: 'A contemporary take on the classic trench. Crafted from water-resistant cotton gabardine with an oversized silhouette and storm flap detail.',
+        description:
+          'A contemporary take on the classic trench. Crafted from water-resistant cotton gabardine with an oversized silhouette and storm flap detail.',
         price: 1450000,
         originalPrice: 1800000,
         category: ProductCategory.WOMEN,
@@ -95,7 +100,8 @@ async function seed() {
       {
         name: 'Merino Wool Sweater',
         brand: 'ESSENTIAL',
-        description: 'Ultra-soft merino wool sweater in a classic crew neck silhouette. Naturally temperature-regulating and wrinkle-resistant for all-day comfort.',
+        description:
+          'Ultra-soft merino wool sweater in a classic crew neck silhouette. Naturally temperature-regulating and wrinkle-resistant for all-day comfort.',
         price: 720000,
         originalPrice: null,
         category: ProductCategory.MEN,
@@ -108,7 +114,8 @@ async function seed() {
       {
         name: 'Wide Leg Trousers',
         brand: 'MODERNO',
-        description: 'Elegant wide-leg trousers in fluid crepe fabric. High-waisted with a straight wide leg and invisible side zip for a clean, polished look.',
+        description:
+          'Elegant wide-leg trousers in fluid crepe fabric. High-waisted with a straight wide leg and invisible side zip for a clean, polished look.',
         price: 580000,
         originalPrice: 750000,
         category: ProductCategory.WOMEN,
@@ -121,7 +128,8 @@ async function seed() {
       {
         name: 'Canvas Tote Bag',
         brand: 'MODERNO',
-        description: 'Heavy-weight canvas tote with reinforced handles. Features an interior zip pocket and subtle MODERNO stamp. The perfect everyday companion.',
+        description:
+          'Heavy-weight canvas tote with reinforced handles. Features an interior zip pocket and subtle MODERNO stamp. The perfect everyday companion.',
         price: 280000,
         originalPrice: null,
         category: ProductCategory.ACCESSORIES,
@@ -134,7 +142,8 @@ async function seed() {
       {
         name: 'Linen Shirt',
         brand: 'ESSENTIAL',
-        description: 'Relaxed-fit linen shirt with a classic collar and button placket. Stonewashed for extra softness with a natural texture that gets better with wear.',
+        description:
+          'Relaxed-fit linen shirt with a classic collar and button placket. Stonewashed for extra softness with a natural texture that gets better with wear.',
         price: 390000,
         originalPrice: 520000,
         category: ProductCategory.SALE,
@@ -147,7 +156,8 @@ async function seed() {
       {
         name: 'Ribbed Tank Top',
         brand: 'URBAN',
-        description: 'Soft ribbed cotton tank with a fitted silhouette. A wardrobe essential that layers perfectly under blazers or stands alone for a minimal look.',
+        description:
+          'Soft ribbed cotton tank with a fitted silhouette. A wardrobe essential that layers perfectly under blazers or stands alone for a minimal look.',
         price: 185000,
         originalPrice: 250000,
         category: ProductCategory.SALE,
@@ -160,7 +170,8 @@ async function seed() {
       {
         name: 'Leather Card Holder',
         brand: 'MODERNO',
-        description: 'Slim vegetable-tanned leather card holder with four card slots and a central bill compartment. Develops a beautiful patina over time.',
+        description:
+          'Slim vegetable-tanned leather card holder with four card slots and a central bill compartment. Develops a beautiful patina over time.',
         price: 320000,
         originalPrice: null,
         category: ProductCategory.ACCESSORIES,
@@ -173,7 +184,8 @@ async function seed() {
       {
         name: 'Relaxed Denim Jacket',
         brand: 'URBAN',
-        description: 'Classic denim jacket in a relaxed boxy fit. Made from 100% organic cotton denim, lightly washed for a vintage feel.',
+        description:
+          'Classic denim jacket in a relaxed boxy fit. Made from 100% organic cotton denim, lightly washed for a vintage feel.',
         price: 680000,
         originalPrice: null,
         category: ProductCategory.MEN,
@@ -193,4 +205,7 @@ async function seed() {
   await app.close();
 }
 
-seed().catch((err) => { console.error(err); process.exit(1); });
+seed().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

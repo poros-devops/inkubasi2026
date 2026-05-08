@@ -29,7 +29,11 @@ export const useAuthStore = create<AuthState>()(
 
       register: async (email, password, name) => {
         set({ isLoading: true });
-        const { data } = await api.post('/auth/register', { email, password, name });
+        const { data } = await api.post('/auth/register', {
+          email,
+          password,
+          name,
+        });
         localStorage.setItem('token', data.access_token);
         set({ user: data.user, token: data.access_token, isLoading: false });
       },
@@ -44,6 +48,9 @@ export const useAuthStore = create<AuthState>()(
         set({ user: data });
       },
     }),
-    { name: 'auth-store', partialize: (s) => ({ user: s.user, token: s.token }) }
+    {
+      name: 'auth-store',
+      partialize: (s) => ({ user: s.user, token: s.token }),
+    }
   )
 );

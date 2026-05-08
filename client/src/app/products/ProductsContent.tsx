@@ -13,7 +13,9 @@ export default function ProductsContent() {
   const [products, setProducts] = useState<Product[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState(searchParams.get('category') || 'all');
+  const [category, setCategory] = useState(
+    searchParams.get('category') || 'all'
+  );
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('createdAt');
   const [page, setPage] = useState(1);
@@ -24,8 +26,12 @@ export default function ProductsContent() {
     if (category !== 'all') params.category = category;
     if (search) params.search = search;
 
-    api.get<PaginatedResponse<Product>>('/products', { params })
-      .then((r) => { setProducts(r.data.items); setTotal(r.data.total); })
+    api
+      .get<PaginatedResponse<Product>>('/products', { params })
+      .then((r) => {
+        setProducts(r.data.items);
+        setTotal(r.data.total);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [category, search, sort, page]);

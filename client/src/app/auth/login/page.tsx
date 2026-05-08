@@ -26,9 +26,13 @@ export default function LoginPage() {
     <div className="min-h-screen pt-16 flex">
       {/* Left panel */}
       <div className="hidden md:flex flex-col justify-end w-1/2 bg-[#F1EFE8] p-16">
-        <p className="text-xs text-[#888780] tracking-[0.25em] uppercase mb-4">MODERNO</p>
+        <p className="text-xs text-[#888780] tracking-[0.25em] uppercase mb-4">
+          MODERNO
+        </p>
         <h2 className="font-display text-5xl font-light text-[#1C1C1A] leading-tight">
-          Your style,<br />your story.
+          Your style,
+          <br />
+          your story.
         </h2>
         <p className="text-sm text-[#888780] mt-4 max-w-xs">
           Discover timeless fashion pieces crafted for the modern individual.
@@ -38,7 +42,9 @@ export default function LoginPage() {
       {/* Right panel */}
       <div className="flex-1 flex items-center justify-center px-8 py-16">
         <div className="w-full max-w-sm">
-          <h1 className="font-display text-3xl font-light text-[#1C1C1A] mb-2">Welcome back</h1>
+          <h1 className="font-display text-3xl font-light text-[#1C1C1A] mb-2">
+            Welcome back
+          </h1>
           <p className="text-sm text-[#888780] mb-8">Sign in to your account</p>
 
           {error && (
@@ -49,7 +55,9 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-xs text-[#888780] block mb-1.5">Email address</label>
+              <label className="text-xs text-[#888780] block mb-1.5">
+                Email address
+              </label>
               <input
                 type="email"
                 value={email}
@@ -60,7 +68,9 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <label className="text-xs text-[#888780] block mb-1.5">Password</label>
+              <label className="text-xs text-[#888780] block mb-1.5">
+                Password
+              </label>
               <input
                 type="password"
                 value={password}
@@ -82,7 +92,10 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-[#888780] mt-6">
             Don't have an account?{' '}
-            <Link href="/auth/register" className="text-[#1C1C1A] font-medium hover:underline underline-offset-4">
+            <Link
+              href="/auth/register"
+              className="text-[#1C1C1A] font-medium hover:underline underline-offset-4"
+            >
               Create one
             </Link>
           </p>
