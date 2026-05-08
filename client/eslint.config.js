@@ -6,17 +6,11 @@ import nextPlugin from '@next/eslint-plugin-next';
 
 export default tseslint.config(
   js.configs.recommended,
-  ...tseslint.configs.recommended, 
+  ...tseslint.configs.recommended,
   eslintConfigPrettier,
 
   {
-    ignores: [
-      'node_modules/',
-      '.next/', 
-      'out/',
-      'dist/',
-      'package-lock.json'
-    ],
+    ignores: ['node_modules/', '.next/', 'out/', 'dist/', 'package-lock.json'],
   },
 
   {
@@ -36,13 +30,13 @@ export default tseslint.config(
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs['core-web-vitals'].rules,
 
-      'no-empty': 'warn', 
-      '@typescript-eslint/no-explicit-any': 'off', 
-      
-      '@next/next/no-img-element': 'warn', 
-      
-      'no-unused-vars': 'off', 
-      '@typescript-eslint/no-unused-vars': ['warn'], 
+      'no-empty': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
+
+      '@next/next/no-img-element': 'warn',
+
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn'],
     },
   }
 );
