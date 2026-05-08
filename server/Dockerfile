@@ -19,5 +19,5 @@ COPY --from=builder /app/package*.json ./
 USER nestjs
 EXPOSE 3001
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3001/health || exit 1
 CMD ["node", "dist/main"]

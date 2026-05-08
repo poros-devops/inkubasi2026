@@ -1,0 +1,21 @@
+services:
+  frontend:
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits: { cpus: '0.5', memory: 512M }
+
+  backend:
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    deploy:
+      resources:
+        limits: { cpus: '1.0', memory: 1G }
+
+  db:
+    restart: unless-stopped
+    ports: []
+    deploy:
+      resources:
+        limits: { cpus: '1.0', memory: 1G }
