@@ -33,7 +33,7 @@ jobs:
           envs: PUBLIC_URL
           script: |
 
-            mkdir -p /home/${{ secrets.EC@_USER }}/app
+            mkdir -p /home/${{ secrets.EC2_USER }}/app
 
             REPO_DIR="/home/${{ secrets.EC2_USER }}/app"
 
