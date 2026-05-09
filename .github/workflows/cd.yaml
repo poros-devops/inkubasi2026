@@ -26,19 +26,14 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ${{ vars.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: PUBLIC_URL,EC2_USER
           script: |
-
-            mkdir -p /home/$EC2_USER/app
-
-            REPO_DIR="/home/$EC2_USER/app"
+            REPO_DIR="/home/${{ vars.EC2_USER }}/app"
+            mkdir -p $REPO_DIR
 
             if [ ! -d "$REPO_DIR/.git" ]; then
-
               git clone https://github.com/${{ github.repository }}.git $REPO_DIR
-
             fi
 
             cd $REPO_DIR
@@ -51,19 +46,18 @@ jobs:
 
             echo "Building Image..."
 
-            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
 
             echo "Run Migration..."
 
-            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
 
             echo "Run All Service..."
 
-            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --remove-orphans
 
             sleep 10
-
-            curl --fail -s "$PUBLIC_URL/health" || (echo "Health check gagal!" && exit 1) 
+            curl --fail -s "${{ vars.PUBLIC_URL }}/health" || (echo "Health check gagal!" && exit 1) 
 
   prod-mode:
     name: Deployment to Production
@@ -80,19 +74,14 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ${{ vars.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: PUBLIC_URL, EC2_USER
           script: |
-
-            mkdir -p /home/$EC2_USER/app
-
-            REPO_DIR="/home/$EC2_USER/app"
+            REPO_DIR="/home/${{ vars.EC2_USER }}/app"
+            mkdir -p $REPO_DIR
 
             if [ ! -d "$REPO_DIR/.git" ]; then
-
               git clone https://github.com/${{ github.repository }}.git $REPO_DIR
-
             fi
 
             cd $REPO_DIR
@@ -105,19 +94,15 @@ jobs:
 
             echo "Building Image..."
 
-            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
 
             echo "Run Migration..."
 
-            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
 
             echo "Run Backend Service..."
 
-            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --remove-orphans
 
             sleep 10
-
-            curl --fail -s "$PUBLIC_URL/health" || (echo "Health check gagal!" && exit 1) 
-
-
-
+            curl --fail -s "${{ vars.PUBLIC_URL }}/health" || (echo "Health check gagal!" && exit 1) 
