@@ -1,0 +1,127 @@
+name: Continous Deployment Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+     - completed
+    branches:
+      - "develop"
+      - "main"
+
+jobs:
+
+  staging-mode:
+    name: Deployment to Staging
+
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'develop'
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: staging
+      url: ${{ vars.PUBLIC_URL}}
+
+    steps:
+      - name: Staging - SSH to EC2
+        env:
+          PUBLIC_URL: ${{ vars.PUBLIC_URL }}
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: PUBLIC_URL
+          script: |
+
+            mkdir -p /home/${{ secrets.EC@_USER }}/app
+
+            REPO_DIR="/home/${{ secrets.EC2_USER }}/app"
+
+            if [ ! -d "$REPO_DIR/.git" ]; then
+
+              git clone https://github.com/${{ github.repository }}.git $REPO_DIR
+
+            fi
+
+            cd $REPO_DIR
+
+            git checkout develop
+
+            echo "Pulling Latest Commit..."
+
+            git pull origin develop
+
+            echo "Building Image..."
+
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
+
+            echo "Run Migration..."
+
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
+
+            echo "Run All Service..."
+
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d
+
+            sleep 10
+
+            curl --fail -s "$PUBLIC_URL/health" || (echo "Health check gagal!" && exit 1) 
+
+  prod-mode:
+    name: Deployment to Production
+
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: production
+      url: ${{ vars.PUBLIC_URL}}
+
+    steps:
+      - name: Production - SSH to EC2
+        env:
+          PUBLIC_URL: ${{ vars.PUBLIC_URL }}
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: PUBLIC_URL
+          script: |
+
+            mkdir -p /home/${{ secrets.EC2_USER }}/app
+
+            REPO_DIR="/home/${{ secrets.EC2_USER }}/app"
+
+            if [ ! -d "$REPO_DIR/.git" ]; then
+
+              git clone https://github.com/${{ github.repository }}.git $REPO_DIR
+
+            fi
+
+            cd $REPO_DIR
+
+            git checkout main
+
+            echo "Pulling Latest Commit..."
+
+            git pull origin main
+
+            echo "Building Image..."
+
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
+
+            echo "Run Migration..."
+
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
+
+            echo "Run Backend Service..."
+
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d
+
+            sleep 10
+
+            curl --fail -s "$PUBLIC_URL/health" || (echo "Health check gagal!" && exit 1) 
+
+
+
