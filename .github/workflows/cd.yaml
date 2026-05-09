@@ -23,19 +23,17 @@ jobs:
 
     steps:
       - name: Staging - SSH to EC2
-        env:
-          PUBLIC_URL: ${{ vars.PUBLIC_URL }}
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: PUBLIC_URL
+          envs: PUBLIC_URL,EC2_USER
           script: |
 
-            mkdir -p /home/${{ secrets.EC2_USER }}/app
+            mkdir -p /home/$EC2_USER/app
 
-            REPO_DIR="/home/${{ secrets.EC2_USER }}/app"
+            REPO_DIR="/home/$EC2_USER/app"
 
             if [ ! -d "$REPO_DIR/.git" ]; then
 
@@ -53,15 +51,15 @@ jobs:
 
             echo "Building Image..."
 
-            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
+            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
 
             echo "Run Migration..."
 
-            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
+            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
 
             echo "Run All Service..."
 
-            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d
+            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d
 
             sleep 10
 
@@ -79,19 +77,17 @@ jobs:
 
     steps:
       - name: Production - SSH to EC2
-        env:
-          PUBLIC_URL: ${{ vars.PUBLIC_URL }}
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: PUBLIC_URL
+          envs: PUBLIC_URL, EC2_USER
           script: |
 
-            mkdir -p /home/${{ secrets.EC2_USER }}/app
+            mkdir -p /home/$EC2_USER/app
 
-            REPO_DIR="/home/${{ secrets.EC2_USER }}/app"
+            REPO_DIR="/home/$EC2_USER/app"
 
             if [ ! -d "$REPO_DIR/.git" ]; then
 
@@ -109,15 +105,15 @@ jobs:
 
             echo "Building Image..."
 
-            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
+            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
 
             echo "Run Migration..."
 
-            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
+            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
 
             echo "Run Backend Service..."
 
-            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d
+            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d
 
             sleep 10
 
