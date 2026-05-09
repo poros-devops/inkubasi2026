@@ -1,4 +1,4 @@
-name: Continous Deployment Pipeline
+name: CD Pipeline
 
 on:
   workflow_run:
@@ -9,10 +9,15 @@ on:
       - "develop"
       - "main"
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_SERVER: ghcr.io/${{ github.repository }}-server
+  IMAGE_CLIENT: ghcr.io/${{ github.repository }}-client
+
 jobs:
 
   staging-mode:
-    name: Deployment to Staging
+    name: staging
 
     if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'develop'
     runs-on: ubuntu-latest
@@ -29,24 +34,20 @@ jobs:
           username: ${{ vars.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            echo "Inisiasi folder..."
             REPO_DIR="/home/${{ vars.EC2_USER }}/app"
             mkdir -p $REPO_DIR
-
             if [ ! -d "$REPO_DIR/.git" ]; then
               git clone https://github.com/${{ github.repository }}.git $REPO_DIR
             fi
-
             cd $REPO_DIR
 
             git checkout develop
-
-            echo "Pulling Latest Commit..."
-
             git pull origin develop
 
-            echo "Building Image..."
-
-            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+            docker pull ${{ env.IMAGE_SERVER }}:develop
+            docker pull ${{ env.IMAGE_CLIENT }}:develop 
 
             echo "Run Migration..."
 
@@ -56,7 +57,7 @@ jobs:
 
             docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --remove-orphans
 
-            sleep 10
+            sleep 20
             curl --fail -s "${{ vars.PUBLIC_URL }}/health" || (echo "Health check gagal!" && exit 1) 
 
   prod-mode:
@@ -92,17 +93,18 @@ jobs:
 
             git pull origin main
 
-            echo "Building Image..."
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
-            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml build 
+            docker pull ${{ env.IMAGE_SERVER }}:latest
+            docker pull ${{ env.IMAGE_CLIENT }}:latest
 
             echo "Run Migration..."
 
             docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run
 
-            echo "Run Backend Service..."
+            echo "Run All Service..."
 
             docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --remove-orphans
 
-            sleep 10
+            sleep 20
             curl --fail -s "${{ vars.PUBLIC_URL }}/health" || (echo "Health check gagal!" && exit 1) 
