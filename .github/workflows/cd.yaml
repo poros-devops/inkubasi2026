@@ -64,9 +64,9 @@ jobs:
             docker pull ${{ env.IMAGE_SERVER }}:$IMAGE_TAG
             docker pull ${{ env.IMAGE_CLIENT }}:$IMAGE_TAG 
 
-            # echo "Run Migration..."
+            echo "Run Migration..."
             
-            # docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend node ./node_modules/typeorm/cli.js migration:run -d dist/db/data-source.js
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend node ./node_modules/typeorm/cli.js migration:run -d dist/db/data-source.js
 
             echo "Run All Service..."
 
