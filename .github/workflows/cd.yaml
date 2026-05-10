@@ -68,8 +68,6 @@ jobs:
             
             docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend node ./node_modules/typeorm/cli.js migration:run -d dist/db/data-source.js
 
-
-
             echo "Run All Service..."
 
             docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --remove-orphans
