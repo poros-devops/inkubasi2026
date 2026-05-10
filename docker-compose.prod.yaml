@@ -1,11 +1,13 @@
 services:
   frontend:
+    image: ghcr.io/poros-devops/inkubasi2026-client:${IMAGE_TAG}
     restart: unless-stopped
     deploy:
       resources:
         limits: { cpus: '0.5', memory: 512M }
 
   backend:
+    image: ghcr.io/poros-devops/inkubasi2026-server:${IMAGE_TAG}
     restart: unless-stopped
     environment:
       - NODE_ENV=production
