@@ -65,8 +65,9 @@ jobs:
             docker pull ${{ env.IMAGE_CLIENT }}:$IMAGE_TAG 
 
             echo "Run Migration..."
+            
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run:prod
 
-            # docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run:prod
 
             echo "Run All Service..."
 
@@ -128,8 +129,8 @@ jobs:
             docker pull ${{ env.IMAGE_CLIENT }}:$IMAGE_TAG
 
             echo "Run Migration..."
-
-            # docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run:prod
+            
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml run --rm backend npm run migration:run:prod
 
             echo "Run All Service..."
 
